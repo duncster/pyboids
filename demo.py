@@ -8,17 +8,32 @@ from vec2 import *
 
 w = 800
 h = 600
-numboids = 10
+numboids = 100
+crowd_dist = 20
+close_dist = 200
 
-boids = []
+def display_boid(screen, boid):
+	pygame.draw.line(screen, (255.0, 255.0, 255.0), \
+		(boid.pos.x, boid.pos.y), \
+		(boid.pos.x + boid.vel.x, boid.pos.y + boid.vel.y), 1)
 
-def render_boid(screen, boid):
-	pass
+def move_boids(boids):
+	for boid in boids:
+		close = []
+		for other in boids:
+			if boid == other:
+				continue
+			if boid.distance(other) < close_dist:
+				close.append(other)
 
-def tick():
-	pass	
+		boid.move_towards(close)
+		boid.move_with(close)
+		boid.move_away(close, crowd_dist)
+
+		boid.move()
 
 def main():
+	boids = []
 	run = True
 	screen = pygame.display.set_mode((w, h))
 
@@ -26,8 +41,6 @@ def main():
 		boids.append(Boid(Vec2(random.randint(0, w), random.randint(0, h))))
 
 	while run:
-		tick()
-
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				run = False
@@ -37,8 +50,10 @@ def main():
 
 		screen.fill((0.0, 0.0, 0.0))
 
+		move_boids(boids)
+		
 		for boid in boids:
-			render_boid(screen, boid)
+			display_boid(screen, boid)
 
 		pygame.display.flip()
 		pygame.time.delay(10)
