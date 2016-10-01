@@ -36,10 +36,9 @@ class Boid:
 
 		avg /= len(boids)
 		
-		self.vel += avg / 60.0
+		self.vel += avg / 40.0
 
 	def move_away(self, boids, mindist):
-		return
 		numclose = 0
 		dist = Vec2(0.0, 0.0)
 
@@ -47,26 +46,27 @@ class Boid:
 			return
 		
 		for boid in boids:
+
 			if self.distance(boid) < mindist:
 				numclose += 1
 				diff = self.pos - boid.pos
 
 				if diff.x > 0.0:
-					diff.x = math.sqrt(mindist) - diff.x	
+					diff.x = mindist - diff.x	
 				else:
-					diff.x = -(math.sqrt(mindist) - diff.x)
+					diff.x = -mindist - diff.x
 
 				if diff.y > 0.0:
-					diff.y = math.sqrt(mindist) - diff.y
+					diff.y = mindist - diff.y
 				else:
-					diff.y = -(math.sqrt(mindist) - diff.y)
+					diff.y = -mindist - diff.y
 
 				dist += diff
 			
 		if numclose == 0:
 			return
 
-		self.pos += dist / 5.0
+		self.vel += (dist / 5.0)
 
 	def move(self):
 		if self.vel.len() > self.maxvel:
