@@ -24,3 +24,6 @@ class Vec2:
 
 	def len(self):
 		return math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2))
+	
+	def normalise(self):
+		return Vec2(self.x, self.y) / self.len()

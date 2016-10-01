@@ -4,6 +4,7 @@ from vec2 import *
 class Boid:
 	pos = Vec2(0.0, 0.0)
 	vel = Vec2(0.0, 0.0)
+	maxvel = 10.0
 
 	def __init__(self, pos):
 		self.pos = pos
@@ -26,10 +27,49 @@ class Boid:
 		self.vel -= avg / 100.0
 
 	def move_with(self, boids):
-		pass
+		if len(boids) < 1:
+			return
+		
+		avg = Vec2(0.0, 0.0)
+		for boid in boids:
+			avg += boid.vel
 
-	def move_away(self, boids, dist):
-		pass
+		avg /= len(boids)
+		
+		self.vel += avg / 60.0
+
+	def move_away(self, boids, mindist):
+		return
+		numclose = 0
+		dist = Vec2(0.0, 0.0)
+
+		if len(boids) < 1:
+			return
+		
+		for boid in boids:
+			if self.distance(boid) < mindist:
+				numclose += 1
+				diff = self.pos - boid.pos
+
+				if diff.x > 0.0:
+					diff.x = math.sqrt(mindist) - diff.x	
+				else:
+					diff.x = -(math.sqrt(mindist) - diff.x)
+
+				if diff.y > 0.0:
+					diff.y = math.sqrt(mindist) - diff.y
+				else:
+					diff.y = -(math.sqrt(mindist) - diff.y)
+
+				dist += diff
+			
+		if numclose == 0:
+			return
+
+		self.pos += dist / 5.0
 
 	def move(self):
-		self.pos += self.vel
+		if self.vel.len() > self.maxvel:
+			self.vel = (self.vel.normalise() * self.maxvel)
+
+		self.pos += self.vel 

@@ -8,9 +8,20 @@ from vec2 import *
 
 w = 800
 h = 600
-numboids = 100
+numboids = 50
 crowd_dist = 20
 close_dist = 200
+
+def stay_within_screen(boid):
+	border = 25
+	if boid.pos.x < border and boid.vel.x < 0.0:
+		boid.vel.x = -boid.vel.x * random.random()	
+	if boid.pos.x > w - border and boid.vel.x > 0.0:
+		boid.vel.x = -boid.vel.x * random.random()	
+	if boid.pos.y < border and boid.vel.y < 0.0:
+		boid.vel.y = -boid.vel.y * random.random()
+	if boid.pos.y > h - border and boid.vel.y > 0.0:
+		boid.vel.y = -boid.vel.y * random.random()
 
 def display_boid(screen, boid):
 	pygame.draw.line(screen, (255.0, 255.0, 255.0), \
@@ -31,6 +42,8 @@ def move_boids(boids):
 		boid.move_away(close, crowd_dist)
 
 		boid.move()
+		stay_within_screen(boid)
+	
 
 def main():
 	boids = []
