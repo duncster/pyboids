@@ -9,7 +9,7 @@ from vec2 import *
 w = 800
 h = 600
 numboids = 25 
-crowd_dist = 50 
+crowd_dist = 30 
 close_dist = 200
 
 def display_boid(screen, boid, sprite, frame_num):
@@ -32,6 +32,9 @@ def main():
 	screen = pygame.display.set_mode((w, h))
 	#screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN|pygame.DOUBLEBUF|pygame.HWSURFACE)
 
+	background = pygame.image.load("resources/background.png").convert()
+	backrect = background.get_rect()
+
 	bird = pygame.image.load("resources/bird.png").convert()
 	bird.set_colorkey((173, 239, 255))
 	frame_num = 0
@@ -48,6 +51,7 @@ def main():
 					run = False
 
 		screen.fill((127.0, 127.0, 127.0))
+		screen.blit(background, backrect)
 
 		move_boids(boids, close_dist, crowd_dist, w, h)
 		
