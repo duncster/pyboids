@@ -19,6 +19,7 @@ class Boid:
 			return
 
 		avg = Vec2(0.0, 0.0)
+		
 		for boid in boids:
 			avg += self.pos - boid.pos
 		
@@ -46,7 +47,6 @@ class Boid:
 			return
 		
 		for boid in boids:
-
 			if self.distance(boid) < mindist:
 				numclose += 1
 				diff = self.pos - boid.pos
@@ -73,3 +73,30 @@ class Boid:
 			self.vel = (self.vel.normalise() * self.maxvel)
 
 		self.pos += self.vel 
+
+def move_boids(boids, close_dist, crowd_dist, w, h):
+	for boid in boids:
+		close = []
+		for other in boids:
+			if boid == other:
+				continue
+			if boid.distance(other) < close_dist:
+				close.append(other)
+
+		boid.move_towards(close)
+		boid.move_with(close)
+		boid.move_away(close, crowd_dist)
+
+		boid.move()
+		stay_within_screen(boid, w, h)
+	
+def stay_within_screen(boid, w, h):
+	border = 25
+	if boid.pos.x < border and boid.vel.x < 0.0:
+		boid.vel.x = abs(boid.vel.x * random.random())	
+	if boid.pos.x > w - border and boid.vel.x > 0.0:
+		boid.vel.x = -abs(boid.vel.x * random.random())	
+	if boid.pos.y < border and boid.vel.y < 0.0:
+		boid.vel.y = abs(boid.vel.y * random.random())
+	if boid.pos.y > h - border and boid.vel.y > 0.0:
+		boid.vel.y = -abs(boid.vel.y * random.random())

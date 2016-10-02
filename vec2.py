@@ -19,7 +19,7 @@ class Vec2:
 
 	def __eq__(self, v):
 		if v.x == self.x and v.y == self.y:
-			return Trune
+			return True
 		return False
 
 	def len(self):
