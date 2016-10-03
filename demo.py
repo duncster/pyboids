@@ -8,7 +8,7 @@ from vec2 import *
 
 w = 800
 h = 600
-numboids = 25 
+numboids = 100
 crowd_dist = 30 
 close_dist = 200
 
@@ -29,8 +29,8 @@ def display_boid(screen, boid, sprite, frame_num):
 def main():
 	boids = []
 	run = True
-	screen = pygame.display.set_mode((w, h))
-	#screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN|pygame.DOUBLEBUF|pygame.HWSURFACE)
+	#screen = pygame.display.set_mode((w, h))
+	screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN|pygame.DOUBLEBUF|pygame.HWSURFACE)
 
 	background = pygame.image.load("resources/background.png").convert()
 	backrect = background.get_rect()
@@ -56,9 +56,10 @@ def main():
 		move_boids(boids, close_dist, crowd_dist, w, h)
 		
 		for boid in boids:
-			display_boid(screen, boid, bird, frame_num)
-			frame_num += 1
+			display_boid(screen, boid, bird, boids.index(boid) + frame_num)
 
+		frame_num += 1
+		
 		pygame.display.flip()
 		pygame.time.delay(10)
 
