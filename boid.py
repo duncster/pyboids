@@ -50,19 +50,9 @@ class Boid:
 			if self.distance(boid) < mindist:
 				numclose += 1
 				diff = self.pos - boid.pos
-
-				if diff.x > 0.0:
-					diff.x = mindist - diff.x	
-				else:
-					diff.x = -mindist - diff.x
-
-				if diff.y > 0.0:
-					diff.y = mindist - diff.y
-				else:
-					diff.y = -mindist - diff.y
-
+				#diff /- self.distance(boid)
 				dist += diff
-			
+
 		if numclose == 0:
 			return
 

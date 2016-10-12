@@ -8,7 +8,7 @@ from vec2 import *
 
 w = 800
 h = 600
-numboids = 100
+numboids = 50
 crowd_dist = 30 
 close_dist = 200
 
@@ -32,10 +32,10 @@ def main():
 	#screen = pygame.display.set_mode((w, h))
 	screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN|pygame.DOUBLEBUF|pygame.HWSURFACE)
 
-	background = pygame.image.load("resources/background.png").convert()
+	background = pygame.image.load("resources/hauntedhouse.jpg").convert()
 	backrect = background.get_rect()
 
-	bird = pygame.image.load("resources/bird.png").convert()
+	bird = pygame.image.load("resources/bat1.png").convert()
 	bird.set_colorkey((173, 239, 255))
 	frame_num = 0
 
